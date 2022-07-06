@@ -3,11 +3,9 @@ using ScintillaNET;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace code2
@@ -16,7 +14,20 @@ namespace code2
     {
 
         private static List<Tuple<string, string, string>> Exo;
-        private static int nbExoCurrent = 0;
+
+        private static int nbExoCurrent = -1;
+
+        private static bool SolvedExo = false;
+
+        private const int BACK_COLOR = 0x2A211C;
+
+        private const int FORE_COLOR = 0xB7B7B7;
+
+        private const int NUMBER_MARGIN = 1;
+
+        private const int BOOKMARK_MARGIN = 2;
+
+        private const int BOOKMARK_MARKER = 2;
 
         [Obsolete]
         public Form1()
@@ -46,37 +57,22 @@ namespace code2
                 foreach (CompilerError CompErr in results.Errors)
                 {
                     richTextBox1.Text = "";
-                    richTextBox1.Text =
-                        $"Line number {CompErr.Line},\nError Number: {CompErr.ErrorNumber} {CompErr.ErrorText}\n";
+                    richTextBox1.Text = $"Line number {CompErr.Line},\nError Number: {CompErr.ErrorNumber} {CompErr.ErrorText}\n";
                 }
             }
             else
             {
-                
                 richTextBox1.ForeColor = Color.White;
                 richTextBox1.Text = "Successful Compile!";
+
                 if (Exec("cmd", Output, richTextBox1, richTextBox3).Equals(Exo[nbExoCurrent].Item3))
                 {
                     if (MessageBox.Show("GG t'as bon") == DialogResult.OK)
                     {
-                        nbExoCurrent++;
-                    };
-                    int nbexo = 1;
-                    int nbScoring = 0;
-                    nbexo++;
-                    nbScoring++;
-                    label2.Text = $"Exo: {nbexo}/{Exo.Count}";
-                    label1.Text = $"Score: {nbScoring}/{Exo.Count}";
-                    richTextBox2.Clear();
-                    richTextBox3.Clear();
-                    richTextBox2.Text = Exo[nbExoCurrent].Item1;
-                    TextArea.Text = richTextBox2.Text;
-                    richTextBox3.Text = nbExoCurrent +"\n" +Exo[nbExoCurrent].Item2;
-                    
-
+                        button2.Visible = true;
+                        SolvedExo = true;
+                    }
                 }
-
-                
             }
 
         }
@@ -102,7 +98,12 @@ namespace code2
                 if (!string.IsNullOrEmpty(e.Data))
                 {
                     lineCount++;
-                    output.Append("\n"+e.Data);
+                    if(lineCount == 1)
+                        output.Append(e.Data);
+                    else
+                    {
+                        output.AppendLine(e.Data);
+                    }
                 }
             });
 
@@ -111,7 +112,7 @@ namespace code2
                 if (!string.IsNullOrEmpty(e.Data))
                 {
                     lineCount++;
-                    output.Append("\n[" + lineCount + "]: " + e.Data);
+                    output.AppendLine("[" + lineCount + "]: " + e.Data);
                 }
             });
 
@@ -200,16 +201,6 @@ namespace code2
 
         }
 
-        private const int BACK_COLOR = 0x2A211C;
-
-        private const int FORE_COLOR = 0xB7B7B7;
-
-        private const int NUMBER_MARGIN = 1;
-
-        private const int BOOKMARK_MARGIN = 2;
-
-        private const int BOOKMARK_MARKER = 2;
-
         private void InitNumberMargin()
         {
 
@@ -251,6 +242,53 @@ namespace code2
         private void richTextBox2_TextChanged_1(object sender, EventArgs e)
         {
             //color syntax + indentation auto 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            int nbexo = 0;
+            int nbScoring = 0;
+
+            if (button2.Text == "Start")
+            {
+                nbExoCurrent++;
+                button2.Visible = false;
+                button2.Text = "Next";
+                richTextBox1.Clear();
+                richTextBox2.Clear();
+                richTextBox3.Clear();
+
+                richTextBox2.Text = Exo[nbExoCurrent].Item1;
+                TextArea.Text = richTextBox2.Text;
+
+                richTextBox3.Text = Exo[nbExoCurrent].Item2;
+                richTextBox2.Clear();
+
+                label2.Text = $"Exo: {nbexo}/{Exo.Count}";
+                label1.Text = $"Score: {nbScoring}/{Exo.Count}";
+            }
+            if (SolvedExo && button2.Text == "Next")
+            {
+                nbExoCurrent++;
+
+                richTextBox1.Clear();
+                richTextBox2.Clear();
+                richTextBox3.Clear();
+
+
+                nbexo++;
+                nbScoring++;
+                label2.Text = $"Exo: {nbexo}/{Exo.Count}";
+                label1.Text = $"Score: {nbScoring}/{Exo.Count}";
+
+                richTextBox2.Text = Exo[nbExoCurrent].Item1;
+                TextArea.Text = richTextBox2.Text;
+
+                richTextBox3.Text = Exo[nbExoCurrent].Item2;
+                richTextBox2.Clear();
+                button2.Visible = false;
+                SolvedExo = false;
+            }
         }
     }
 }

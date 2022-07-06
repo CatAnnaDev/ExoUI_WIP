@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.richTextBox3 = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -44,10 +44,10 @@
             this.richTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
             this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox1.ForeColor = System.Drawing.SystemColors.Window;
-            this.richTextBox1.Location = new System.Drawing.Point(108, 345);
+            this.richTextBox1.Location = new System.Drawing.Point(108, 659);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(950, 245);
+            this.richTextBox1.Size = new System.Drawing.Size(1440, 245);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -71,9 +71,9 @@
             this.richTextBox2.ForeColor = System.Drawing.SystemColors.Window;
             this.richTextBox2.Location = new System.Drawing.Point(108, 12);
             this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(618, 327);
+            this.richTextBox2.Size = new System.Drawing.Size(1108, 641);
             this.richTextBox2.TabIndex = 2;
-            this.richTextBox2.Text = resources.GetString("richTextBox2.Text");
+            this.richTextBox2.Text = "";
             this.richTextBox2.TextChanged += new System.EventHandler(this.richTextBox2_TextChanged_1);
             // 
             // richTextBox3
@@ -83,12 +83,12 @@
             this.richTextBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
             this.richTextBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox3.ForeColor = System.Drawing.SystemColors.Window;
-            this.richTextBox3.Location = new System.Drawing.Point(732, 12);
+            this.richTextBox3.Location = new System.Drawing.Point(1222, 12);
             this.richTextBox3.Name = "richTextBox3";
             this.richTextBox3.ReadOnly = true;
-            this.richTextBox3.Size = new System.Drawing.Size(326, 327);
+            this.richTextBox3.Size = new System.Drawing.Size(326, 641);
             this.richTextBox3.TabIndex = 3;
-            this.richTextBox3.Text = "// Manquant\n// Result : 01234567891011121314 ";
+            this.richTextBox3.Text = "";
             // 
             // label1
             // 
@@ -99,7 +99,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(77, 16);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Score:  1/45";
+            this.label1.Text = "Score:  0/45";
             // 
             // label2
             // 
@@ -110,14 +110,25 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(61, 16);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Exo: 1/45";
+            this.label2.Text = "Exo: 0/45";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(12, 41);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "Start";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
-            this.ClientSize = new System.Drawing.Size(1070, 602);
+            this.ClientSize = new System.Drawing.Size(1560, 916);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.richTextBox3);
@@ -140,6 +151,7 @@
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.RichTextBox richTextBox1;
         public System.Windows.Forms.RichTextBox richTextBox3;
+        private System.Windows.Forms.Button button2;
     }
 }
 

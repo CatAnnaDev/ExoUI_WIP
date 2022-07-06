@@ -117,22 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="richTextBox2.Text" xml:space="preserve">
-    <value>using System;
-
-namespace EXO1
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            int x = 15;
-            for (int i = 0; i &lt; x; i++)
-            {
-                Console.WriteLine(i);
-            }
-        }
-    }
-}</value>
-  </data>
 </root>
