@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace code2
@@ -15,7 +16,7 @@ namespace code2
 
         private static List<Tuple<string, string, string>> Exo;
 
-        private static int nbExoCurrent = -1;
+        private static int nbExoCurrent = 5;
 
         private static bool SolvedExo = false;
 
@@ -35,6 +36,10 @@ namespace code2
             InitializeComponent();
             ExoClass exo = new ExoClass();
             Exo = exo.InitExo();
+
+           
+
+            this.KeyDown += new KeyEventHandler(Form1_KeyDown);
         }
 
         Scintilla TextArea;
@@ -98,8 +103,14 @@ namespace code2
                 if (!string.IsNullOrEmpty(e.Data))
                 {
                     lineCount++;
-                    if(lineCount == 1)
+                    if (lineCount == 1)
+                    {
                         output.Append(e.Data);
+                    }
+                    else if (lineCount == 2)
+                    {
+                        output.Append("\n"+e.Data+"\n");
+                    }
                     else
                     {
                         output.AppendLine(e.Data);
@@ -174,6 +185,7 @@ namespace code2
             TextArea.Styles[Style.Default].Size = 12;
             TextArea.Styles[Style.Default].BackColor = IntToColor(0x212121);
             TextArea.Styles[Style.Default].ForeColor = IntToColor(0xFFFFFF);
+            TextArea.CaretForeColor = Color.White;
             TextArea.StyleClearAll();
 
             // Configure the CPP (C#) lexer styles
@@ -193,7 +205,6 @@ namespace code2
             TextArea.Styles[Style.Cpp.CommentDocKeyword].ForeColor = IntToColor(0xB3D991);
             TextArea.Styles[Style.Cpp.CommentDocKeywordError].ForeColor = IntToColor(0xFF0000);
             TextArea.Styles[Style.Cpp.GlobalClass].ForeColor = IntToColor(0x48A8EE);
-
             TextArea.Lexer = Lexer.Cpp;
 
             TextArea.SetKeywords(0, "class extends implements import interface new case do while else if for in switch throw get set function var try catch finally while with default break continue delete return each const namespace package include use is as instanceof typeof author copy default deprecated eventType example exampleText exception haxe inheritDoc internal link mtasc mxmlc param private return see serial serialData serialField since throws usage version langversion playerversion productversion dynamic private public partial static intrinsic internal native override protected AS3 final super this arguments null Infinity NaN undefined true false abstract as base bool break by byte case catch char checked class const continue decimal default delegate do double descending explicit event extern else enum false finally fixed float for foreach from goto group if implicit in int interface internal into is lock long new null namespace object operator out override orderby params private protected public readonly ref return switch struct sbyte sealed short sizeof stackalloc static string select this throw true try typeof uint ulong unchecked unsafe ushort using var virtual volatile void while where yield");
@@ -288,6 +299,26 @@ namespace code2
                 richTextBox2.Clear();
                 button2.Visible = false;
                 SolvedExo = false;
+            }
+        }
+
+        private void richTextBox2_KeyDown(object sender, KeyEventArgs e)
+        {
+            
+        }
+
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F1)
+            {
+                button1.PerformClick();
+                Thread.Sleep(50);
+            }
+            if (e.KeyCode == Keys.F2)
+            {
+                button2.PerformClick();
+                Thread.Sleep(50);
             }
         }
     }
