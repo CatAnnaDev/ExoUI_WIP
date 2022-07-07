@@ -16,7 +16,13 @@ namespace code2
 
         private static List<Tuple<string, string, string>> Exo;
 
-        private static int nbExoCurrent = 5;
+        private Compil cp = new Compil();
+
+        private static int nbExoCurrent = -1;
+
+        private static int nbexo = 0;
+
+        private static int nbScoring = 0;
 
         private static bool SolvedExo = false;
 
@@ -36,8 +42,7 @@ namespace code2
             InitializeComponent();
             ExoClass exo = new ExoClass();
             Exo = exo.InitExo();
-
-           
+            
 
             this.KeyDown += new KeyEventHandler(Form1_KeyDown);
         }
@@ -79,6 +84,8 @@ namespace code2
                     }
                 }
             }
+
+            // cp.CompileAndRun(TextArea.Text); WIP
 
         }
 
@@ -257,8 +264,7 @@ namespace code2
 
         private void button2_Click(object sender, EventArgs e)
         {
-            int nbexo = 0;
-            int nbScoring = 0;
+
 
             if (button2.Text == "Start")
             {
@@ -281,14 +287,13 @@ namespace code2
             if (SolvedExo && button2.Text == "Next")
             {
                 nbExoCurrent++;
+                nbexo++;
+                nbScoring++;
 
                 richTextBox1.Clear();
                 richTextBox2.Clear();
                 richTextBox3.Clear();
 
-
-                nbexo++;
-                nbScoring++;
                 label2.Text = $"Exo: {nbexo}/{Exo.Count}";
                 label1.Text = $"Score: {nbScoring}/{Exo.Count}";
 

@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compil.cs" />
     <Compile Include="ExoClass.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
