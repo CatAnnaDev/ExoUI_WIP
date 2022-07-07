@@ -16,6 +16,7 @@ namespace code2
 {
     public partial class Form1 : Form
     {
+        private static List<TimeSpan> stopwatchlist = new List<TimeSpan>();
         private Stopwatch _stopwtch;
 
         private static List<Tuple<string, string, string>> Exo;
@@ -283,6 +284,14 @@ namespace code2
             {
                 _stopwtch.Stop();
                 timer1.Stop();
+                scintilla1.Clear();
+                StringBuilder swl = new StringBuilder();
+                for (int i = 0; i < stopwatchlist.Count; i++)
+                {
+                    swl.Append($"\n{stopwatchlist[i]}");
+                }
+
+                scintilla1.Text = swl.ToString();
             }
 
             if (button2.Text == "Start")
@@ -335,6 +344,7 @@ namespace code2
                 richTextBox2.Clear();
                 button2.Visible = false;
                 SolvedExo = false;
+                stopwatchlist.Add(_stopwtch.Elapsed);
             }
         }
 
