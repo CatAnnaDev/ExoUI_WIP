@@ -228,13 +228,14 @@
             // 
             // checkBox1
             // 
+            this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBox1.AutoSize = true;
             this.checkBox1.ForeColor = System.Drawing.SystemColors.Window;
             this.checkBox1.Location = new System.Drawing.Point(16, 626);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(82, 17);
+            this.checkBox1.Size = new System.Drawing.Size(89, 17);
             this.checkBox1.TabIndex = 6;
-            this.checkBox1.Text = "Show Timer";
+            this.checkBox1.Text = "StopWatch ?";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // label3
@@ -242,11 +243,12 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.Window;
-            this.label3.Location = new System.Drawing.Point(14, 200);
+            this.label3.Location = new System.Drawing.Point(12, 195);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(60, 24);
+            this.label3.Size = new System.Drawing.Size(101, 24);
             this.label3.TabIndex = 7;
-            this.label3.Text = "label3";
+            this.label3.Text = "StopWatch";
+            this.label3.Visible = false;
             // 
             // timer1
             // 

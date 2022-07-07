@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -278,14 +279,24 @@ namespace code2
 
         private void button2_Click_1(object sender, EventArgs e)
         {
+            if (nbExoCurrent +1 == Exo.Count)
+            {
+                _stopwtch.Stop();
+                timer1.Stop();
+            }
 
             if (button2.Text == "Start")
             {
                 if (checkBox1.Checked)
                 {
+                    label3.Visible = true;
                     _stopwtch = new Stopwatch();
                     _stopwtch.Start();
                     timer1.Start();
+                }
+                else
+                {
+                    label3.Visible = false;
                 }
 
                 checkBox1.Visible = false;
@@ -358,7 +369,7 @@ namespace code2
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            this.label3.Text = _stopwtch.Elapsed.ToString("hh:mm:ss:fff");
+            this.label3.Text = string.Format("Elapsed Time: \n{0:hh\\:mm\\:ss}", _stopwtch.Elapsed);
         }
     }
 }
