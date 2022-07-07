@@ -15,6 +15,7 @@ namespace code2
 {
     public partial class Form1 : Form
     {
+        private Stopwatch _stopwtch;
 
         private static List<Tuple<string, string, string>> Exo;
 
@@ -280,6 +281,15 @@ namespace code2
 
             if (button2.Text == "Start")
             {
+                if (checkBox1.Checked)
+                {
+                    _stopwtch = new Stopwatch();
+                    _stopwtch.Start();
+                    timer1.Start();
+                }
+
+                checkBox1.Visible = false;
+
                 nbExoCurrent++;
                 button2.Visible = false;
                 button2.Text = "Next";
@@ -344,6 +354,11 @@ namespace code2
             scintilla1.Text = Exo[nbExoCurrent].Item1;
             richTextBox1.Text = Exo[nbExoCurrent].Item2;
 
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            this.label3.Text = _stopwtch.Elapsed.ToString("hh:mm:ss:fff");
         }
     }
 }
