@@ -117,4 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="scintilla1.Text" xml:space="preserve">
+    <value>Le code se trouve ici 
+
+Cliquer sur Start quand vous serais prêt à commencer
+Sur la gauche de votre écran
+/*
+
+Vous y retrouverais en 1er lieu le type de problème
+// Erreur , Dev , Manque
+
+Après vous trouverais mon accord pour l'utilisation d'Internet pour vous aider dans l'exo en question
+
+Et pour finir vous trouverais le Result ( ce que j'attends de vous et du code)
+Soit
+// Result : text sur une ligne
+// Result : test multi lignes
+
+*/</value>
+  </data>
 </root>

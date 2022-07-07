@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -124,7 +125,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(8, 175);
+            this.button3.Location = new System.Drawing.Point(12, 144);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(158, 23);
             this.button3.TabIndex = 4;
@@ -137,7 +138,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.Window;
-            this.label2.Location = new System.Drawing.Point(8, 146);
+            this.label2.Location = new System.Drawing.Point(12, 115);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(37, 20);
             this.label2.TabIndex = 3;
@@ -148,7 +149,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.Window;
-            this.label1.Location = new System.Drawing.Point(8, 126);
+            this.label1.Location = new System.Drawing.Point(12, 95);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 20);
             this.label1.TabIndex = 2;
@@ -184,7 +185,7 @@
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(343, 694);
             this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
+            this.richTextBox1.Text = "Info sur l\'exo en cours\n\n";
             // 
             // scintilla1
             // 
@@ -194,7 +195,7 @@
             this.scintilla1.Name = "scintilla1";
             this.scintilla1.Size = new System.Drawing.Size(1036, 694);
             this.scintilla1.TabIndex = 0;
-            this.scintilla1.Text = "scintilla1";
+            this.scintilla1.Text = resources.GetString("scintilla1.Text");
             // 
             // richTextBox2
             // 
@@ -206,7 +207,7 @@
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.Size = new System.Drawing.Size(1560, 218);
             this.richTextBox2.TabIndex = 0;
-            this.richTextBox2.Text = "";
+            this.richTextBox2.Text = "Le debug/output se trouve ici";
             // 
             // button4
             // 
