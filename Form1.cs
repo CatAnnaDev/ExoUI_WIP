@@ -5,6 +5,8 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -59,6 +61,11 @@ namespace code2
             CompilerParameters parameters = new CompilerParameters();
             parameters.GenerateExecutable = true;
             parameters.OutputAssembly = Output;
+            string[] fileEntries = Directory.GetFiles(@"ref/", "*.dll");
+            foreach (string fileName in fileEntries)
+                parameters.ReferencedAssemblies.Add(fileName);
+            //parameters.ReferencedAssemblies.Add(@"ref/Newtonsoft.Json.dll");
+
             CompilerResults results = icc.CompileAssemblyFromSource(parameters, TextArea.Text);
 
             if (results.Errors.Count > 0)
@@ -324,6 +331,23 @@ namespace code2
             {
                 button2.PerformClick();
                 Thread.Sleep(50);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Code frm2 = Application
+                .OpenForms
+                .OfType<Code>()
+                .LastOrDefault();
+            if (null == frm2)
+            {
+                frm2 = new Code();
+                frm2.Show();
+            }
+            else
+            {
+                frm2.Activate();
             }
         }
     }
