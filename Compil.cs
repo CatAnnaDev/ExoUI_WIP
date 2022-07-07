@@ -11,7 +11,7 @@ namespace code2
 
         public string CompileAndRun(string code)
         {
-            RichTextBox t = Application.OpenForms["Form1"].Controls["richTextBox1"] as RichTextBox;
+            RichTextBox t = Application.OpenForms["Form1"].Controls["richTextBox2"] as RichTextBox;
 
             CompilerParameters CompilerParams = new CompilerParameters();
 

@@ -49,57 +49,13 @@ namespace code2
             this.KeyDown += new KeyEventHandler(Form1_KeyDown);
         }
 
-        Scintilla TextArea;
+       /* Scintilla scintilla1;*/
 
-        [Obsolete]
-        private void button1_Click(object sender, EventArgs e)
-        {
-            CSharpCodeProvider codeProvider = new CSharpCodeProvider();
-            ICodeCompiler icc = codeProvider.CreateCompiler();
-            string Output = "Out.exe";
-            richTextBox1.Text = "";
-            CompilerParameters parameters = new CompilerParameters();
-            parameters.GenerateExecutable = true;
-            parameters.OutputAssembly = Output;
-            string[] fileEntries = Directory.GetFiles(@"ref/", "*.dll");
-            foreach (string fileName in fileEntries)
-                parameters.ReferencedAssemblies.Add(fileName);
-            //parameters.ReferencedAssemblies.Add(@"ref/Newtonsoft.Json.dll");
-
-            CompilerResults results = icc.CompileAssemblyFromSource(parameters, TextArea.Text);
-
-            if (results.Errors.Count > 0)
-            {
-                richTextBox1.ForeColor = Color.White;
-                foreach (CompilerError CompErr in results.Errors)
-                {
-                    richTextBox1.Text = "";
-                    richTextBox1.Text = $"Line number {CompErr.Line},\nError Number: {CompErr.ErrorNumber} {CompErr.ErrorText}\n";
-                }
-            }
-            else
-            {
-                richTextBox1.ForeColor = Color.White;
-                richTextBox1.Text = "Successful Compile!";
-
-                if (Exec("cmd", Output, richTextBox1, richTextBox3).Equals(Exo[nbExoCurrent].Item3))
-                {
-                    if (MessageBox.Show("GG t'as bon") == DialogResult.OK)
-                    {
-                        button2.Visible = true;
-                        SolvedExo = true;
-                    }
-                }
-            }
-
-            // cp.CompileAndRun(TextArea.Text); WIP
-
-        }
 
         private int lineCount = 0;
         private StringBuilder output = new StringBuilder();
 
-        private string Exec(string filename, string cmd, RichTextBox rtbLog, RichTextBox rtbinfo)
+        private string Exec(string filename, string cmd, RichTextBox rtbLog, Scintilla rtbinfo)
         {
             string result = "";
             Process process = new Process();
@@ -160,12 +116,12 @@ namespace code2
         
         private void Form1_Load(object sender, EventArgs e)
         {
-            TextArea = new Scintilla();
-            TextArea.Text = richTextBox2.Text;
-            richTextBox2.Controls.Add(TextArea);
+            /*scintilla1 = new Scintilla();*/
+/*            scintilla1.Text = scintilla1.Text;
+            scintilla1.Controls.Add(scintilla1);*/
 
-            TextArea.Dock = DockStyle.Fill;
-            richTextBox2.TextChanged += this.OnTextChanged;
+            scintilla1.Dock = DockStyle.Fill;
+            scintilla1.TextChanged += this.OnTextChanged;
 
             InitColors();
             InitSyntaxColoring();
@@ -186,7 +142,7 @@ namespace code2
         private void InitColors()
         {
 
-            TextArea.SetSelectionBackColor(true, IntToColor(0x114D9C));
+            scintilla1.SetSelectionBackColor(true, IntToColor(0x114D9C));
 
         }
 
@@ -194,63 +150,62 @@ namespace code2
         {
 
             // Configure the default style
-            TextArea.StyleResetDefault();
-            TextArea.Styles[Style.Default].Font = "Consolas";
-            TextArea.Styles[Style.Default].Size = 12;
-            TextArea.Styles[Style.Default].BackColor = IntToColor(0x212121);
-            TextArea.Styles[Style.Default].ForeColor = IntToColor(0xFFFFFF);
-            TextArea.CaretForeColor = Color.White;
-            TextArea.StyleClearAll();
+            scintilla1.StyleResetDefault();
+            scintilla1.Styles[Style.Default].Font = "Consolas";
+            scintilla1.Styles[Style.Default].Size = 12;
+            scintilla1.Styles[Style.Default].BackColor = IntToColor(0x212121);
+            scintilla1.Styles[Style.Default].ForeColor = IntToColor(0xFFFFFF);
+            scintilla1.CaretForeColor = Color.White;
+            scintilla1.StyleClearAll();
 
             // Configure the CPP (C#) lexer styles
-            TextArea.Styles[Style.Cpp.Identifier].ForeColor = IntToColor(0xD0DAE2);
-            TextArea.Styles[Style.Cpp.Comment].ForeColor = IntToColor(0xBD758B);
-            TextArea.Styles[Style.Cpp.CommentLine].ForeColor = IntToColor(0x40BF57);
-            TextArea.Styles[Style.Cpp.CommentDoc].ForeColor = IntToColor(0x2FAE35);
-            TextArea.Styles[Style.Cpp.Number].ForeColor = IntToColor(0xFFFF00);
-            TextArea.Styles[Style.Cpp.String].ForeColor = IntToColor(0xFFFF00);
-            TextArea.Styles[Style.Cpp.Character].ForeColor = IntToColor(0xE95454);
-            TextArea.Styles[Style.Cpp.Preprocessor].ForeColor = IntToColor(0x8AAFEE);
-            TextArea.Styles[Style.Cpp.Operator].ForeColor = IntToColor(0xE0E0E0);
-            TextArea.Styles[Style.Cpp.Regex].ForeColor = IntToColor(0xff00ff);
-            TextArea.Styles[Style.Cpp.CommentLineDoc].ForeColor = IntToColor(0x77A7DB);
-            TextArea.Styles[Style.Cpp.Word].ForeColor = IntToColor(0x48A8EE);
-            TextArea.Styles[Style.Cpp.Word2].ForeColor = IntToColor(0xF98906);
-            TextArea.Styles[Style.Cpp.CommentDocKeyword].ForeColor = IntToColor(0xB3D991);
-            TextArea.Styles[Style.Cpp.CommentDocKeywordError].ForeColor = IntToColor(0xFF0000);
-            TextArea.Styles[Style.Cpp.GlobalClass].ForeColor = IntToColor(0x48A8EE);
-            TextArea.Lexer = Lexer.Cpp;
+            scintilla1.Styles[Style.Cpp.Identifier].ForeColor = IntToColor(0xD0DAE2);
+            scintilla1.Styles[Style.Cpp.Comment].ForeColor = IntToColor(0xBD758B);
+            scintilla1.Styles[Style.Cpp.CommentLine].ForeColor = IntToColor(0x40BF57);
+            scintilla1.Styles[Style.Cpp.CommentDoc].ForeColor = IntToColor(0x2FAE35);
+            scintilla1.Styles[Style.Cpp.Number].ForeColor = IntToColor(0xFFFF00);
+            scintilla1.Styles[Style.Cpp.String].ForeColor = IntToColor(0xFFFF00);
+            scintilla1.Styles[Style.Cpp.Character].ForeColor = IntToColor(0xE95454);
+            scintilla1.Styles[Style.Cpp.Preprocessor].ForeColor = IntToColor(0x8AAFEE);
+            scintilla1.Styles[Style.Cpp.Operator].ForeColor = IntToColor(0xE0E0E0);
+            scintilla1.Styles[Style.Cpp.Regex].ForeColor = IntToColor(0xff00ff);
+            scintilla1.Styles[Style.Cpp.CommentLineDoc].ForeColor = IntToColor(0x77A7DB);
+            scintilla1.Styles[Style.Cpp.Word].ForeColor = IntToColor(0x48A8EE);
+            scintilla1.Styles[Style.Cpp.Word2].ForeColor = IntToColor(0xF98906);
+            scintilla1.Styles[Style.Cpp.CommentDocKeyword].ForeColor = IntToColor(0xB3D991);
+            scintilla1.Styles[Style.Cpp.CommentDocKeywordError].ForeColor = IntToColor(0xFF0000);
+            scintilla1.Styles[Style.Cpp.GlobalClass].ForeColor = IntToColor(0x48A8EE);
+            scintilla1.Lexer = Lexer.Cpp;
 
-            TextArea.SetKeywords(0, "class extends implements import interface new case do while else if for in switch throw get set function var try catch finally while with default break continue delete return each const namespace package include use is as instanceof typeof author copy default deprecated eventType example exampleText exception haxe inheritDoc internal link mtasc mxmlc param private return see serial serialData serialField since throws usage version langversion playerversion productversion dynamic private public partial static intrinsic internal native override protected AS3 final super this arguments null Infinity NaN undefined true false abstract as base bool break by byte case catch char checked class const continue decimal default delegate do double descending explicit event extern else enum false finally fixed float for foreach from goto group if implicit in int interface internal into is lock long new null namespace object operator out override orderby params private protected public readonly ref return switch struct sbyte sealed short sizeof stackalloc static string select this throw true try typeof uint ulong unchecked unsafe ushort using var virtual volatile void while where yield");
-            TextArea.SetKeywords(1, "void Null ArgumentError arguments Array Boolean Class Date DefinitionError Error EvalError Function int Math Namespace Number Object RangeError ReferenceError RegExp SecurityError String SyntaxError TypeError uint XML XMLList Boolean Byte Char DateTime Decimal Double Int16 Int32 Int64 IntPtr SByte Single UInt16 UInt32 UInt64 UIntPtr Void Path File System Windows Forms ScintillaNET");
+            scintilla1.SetKeywords(0, "class extends implements import interface new case do while else if for in switch throw get set function var try catch finally while with default break continue delete return each const namespace package include use is as instanceof typeof author copy default deprecated eventType example exampleText exception haxe inheritDoc internal link mtasc mxmlc param private return see serial serialData serialField since throws usage version langversion playerversion productversion dynamic private public partial static intrinsic internal native override protected AS3 final super this arguments null Infinity NaN undefined true false abstract as base bool break by byte case catch char checked class const continue decimal default delegate do double descending explicit event extern else enum false finally fixed float for foreach from goto group if implicit in int interface internal into is lock long new null namespace object operator out override orderby params private protected public readonly ref return switch struct sbyte sealed short sizeof stackalloc static string select this throw true try typeof uint ulong unchecked unsafe ushort using var virtual volatile void while where yield");
+            scintilla1.SetKeywords(1, "void Null ArgumentError arguments Array Boolean Class Date DefinitionError Error EvalError Function int Math Namespace Number Object RangeError ReferenceError RegExp SecurityError String SyntaxError TypeError uint XML XMLList Boolean Byte Char DateTime Decimal Double Int16 Int32 Int64 IntPtr SByte Single UInt16 UInt32 UInt64 UIntPtr Void Path File System Windows Forms ScintillaNET");
 
         }
 
         private void InitNumberMargin()
         {
 
+            scintilla1.Styles[Style.LineNumber].BackColor = IntToColor(BACK_COLOR);
+            scintilla1.Styles[Style.LineNumber].ForeColor = IntToColor(FORE_COLOR);
+            scintilla1.Styles[Style.IndentGuide].ForeColor = IntToColor(FORE_COLOR);
+            scintilla1.Styles[Style.IndentGuide].BackColor = IntToColor(BACK_COLOR);
 
-            TextArea.Styles[Style.LineNumber].BackColor = IntToColor(BACK_COLOR);
-            TextArea.Styles[Style.LineNumber].ForeColor = IntToColor(FORE_COLOR);
-            TextArea.Styles[Style.IndentGuide].ForeColor = IntToColor(FORE_COLOR);
-            TextArea.Styles[Style.IndentGuide].BackColor = IntToColor(BACK_COLOR);
-
-            var nums = TextArea.Margins[NUMBER_MARGIN];
+            var nums = scintilla1.Margins[NUMBER_MARGIN];
             nums.Width = 30;
             nums.Type = MarginType.Number;
             nums.Sensitive = true;
             nums.Mask = 0;
 
-            TextArea.MarginClick += TextArea_MarginClick;
+            scintilla1.MarginClick += scintilla1_MarginClick;
         }
 
-        private void TextArea_MarginClick(object sender, MarginClickEventArgs e)
+        private void scintilla1_MarginClick(object sender, MarginClickEventArgs e)
         {
             if (e.Margin == BOOKMARK_MARGIN)
             {
                 // Do we have a marker for this line?
                 const uint mask = (1 << BOOKMARK_MARKER);
-                var line = TextArea.Lines[TextArea.LineFromPosition(e.Position)];
+                var line = scintilla1.Lines[scintilla1.LineFromPosition(e.Position)];
                 if ((line.MarkerGet() & mask) > 0)
                 {
                     // Remove existing bookmark
@@ -263,62 +218,6 @@ namespace code2
                 }
             }
         }
-
-        private void richTextBox2_TextChanged_1(object sender, EventArgs e)
-        {
-            //color syntax + indentation auto 
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-
-            if (button2.Text == "Start")
-            {
-                nbExoCurrent++;
-                button2.Visible = false;
-                button2.Text = "Next";
-                richTextBox1.Clear();
-                richTextBox2.Clear();
-                richTextBox3.Clear();
-
-                richTextBox2.Text = Exo[nbExoCurrent].Item1;
-                TextArea.Text = richTextBox2.Text;
-
-                richTextBox3.Text = Exo[nbExoCurrent].Item2;
-                richTextBox2.Clear();
-
-                label2.Text = $"Exo: {nbexo}/{Exo.Count}";
-                label1.Text = $"Score: {nbScoring}/{Exo.Count}";
-            }
-            if (SolvedExo && button2.Text == "Next")
-            {
-                nbExoCurrent++;
-                nbexo++;
-                nbScoring++;
-
-                richTextBox1.Clear();
-                richTextBox2.Clear();
-                richTextBox3.Clear();
-
-                label2.Text = $"Exo: {nbexo}/{Exo.Count}";
-                label1.Text = $"Score: {nbScoring}/{Exo.Count}";
-
-                richTextBox2.Text = Exo[nbExoCurrent].Item1;
-                TextArea.Text = richTextBox2.Text;
-
-                richTextBox3.Text = Exo[nbExoCurrent].Item2;
-                richTextBox2.Clear();
-                button2.Visible = false;
-                SolvedExo = false;
-            }
-        }
-
-        private void richTextBox2_KeyDown(object sender, KeyEventArgs e)
-        {
-            
-        }
-
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -334,7 +233,91 @@ namespace code2
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            CSharpCodeProvider codeProvider = new CSharpCodeProvider();
+            ICodeCompiler icc = codeProvider.CreateCompiler();
+            string Output = "Out.exe";
+            //richTextBox1.Text = "";
+            CompilerParameters parameters = new CompilerParameters();
+            parameters.GenerateExecutable = true;
+            parameters.OutputAssembly = Output;
+            string[] fileEntries = Directory.GetFiles(@"ref/", "*.dll");
+            foreach (string fileName in fileEntries)
+                parameters.ReferencedAssemblies.Add(fileName);
+
+            CompilerResults results = icc.CompileAssemblyFromSource(parameters, scintilla1.Text);
+
+            if (results.Errors.Count > 0)
+            {
+                richTextBox2.ForeColor = Color.White;
+                foreach (CompilerError CompErr in results.Errors)
+                {
+                    richTextBox2.Text = "";
+                    richTextBox2.Text = $"Line number {CompErr.Line},\nError Number: {CompErr.ErrorNumber} {CompErr.ErrorText}\n";
+                }
+            }
+            else
+            {
+                richTextBox2.ForeColor = Color.White;
+                richTextBox2.Text = "Successful Compile!";
+
+                if (Exec("cmd", Output, richTextBox2, scintilla1).Equals(Exo[nbExoCurrent].Item3))
+                {
+                    if (MessageBox.Show("GG t'as bon") == DialogResult.OK)
+                    {
+                        button2.Visible = true;
+                        SolvedExo = true;
+                    }
+                }
+            }
+
+            // cp.CompileAndRun(scintilla1.Text); WIP
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+
+            if (button2.Text == "Start")
+            {
+                nbExoCurrent++;
+                button2.Visible = false;
+                button2.Text = "Next";
+
+                richTextBox1.Clear();
+                richTextBox2.Clear();
+                scintilla1.Clear();
+
+                scintilla1.Text = Exo[nbExoCurrent].Item1;
+
+                richTextBox1.Text = Exo[nbExoCurrent].Item2;
+
+                label2.Text = $"Exo: {nbexo}/{Exo.Count}";
+                label1.Text = $"Score: {nbScoring}/{Exo.Count}";
+            }
+            if (SolvedExo && button2.Text == "Next")
+            {
+                nbExoCurrent++;
+                nbexo++;
+                nbScoring++;
+
+                richTextBox1.Clear();
+                richTextBox2.Clear();
+                scintilla1.Clear();
+
+                label2.Text = $"Exo: {nbexo}/{Exo.Count}";
+                label1.Text = $"Score: {nbScoring}/{Exo.Count}";
+
+                scintilla1.Text = Exo[nbExoCurrent].Item1;
+
+                richTextBox1.Text = Exo[nbExoCurrent].Item2;
+                richTextBox2.Clear();
+                button2.Visible = false;
+                SolvedExo = false;
+            }
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
         {
             Code frm2 = Application
                 .OpenForms
@@ -349,6 +332,18 @@ namespace code2
             {
                 frm2.Activate();
             }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if(nbExoCurrent == -1 ) return;
+            richTextBox1.Clear();
+            richTextBox2.Clear();
+            scintilla1.Clear();
+
+            scintilla1.Text = Exo[nbExoCurrent].Item1;
+            richTextBox1.Text = Exo[nbExoCurrent].Item2;
+
         }
     }
 }
