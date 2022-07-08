@@ -7,12 +7,10 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace code2
 {
@@ -54,7 +52,7 @@ namespace code2
             KeyDown += Form1_KeyDown;
         }
 
-       /* Scintilla scintilla1;*/
+        /* Scintilla scintilla1;*/
 
 
         private int lineCount = 0;
@@ -84,7 +82,7 @@ namespace code2
                     }
                     else if (lineCount == 2)
                     {
-                        output.Append("\n"+e.Data+"\n");
+                        output.Append("\n" + e.Data + "\n");
                     }
                     else
                     {
@@ -110,7 +108,7 @@ namespace code2
             process.WaitForExit();
 
             rtbLog.Text = output.ToString();
-            
+
             process.WaitForExit();
             process.Close();
             result = output.ToString();
@@ -118,7 +116,7 @@ namespace code2
             output.Clear();
             return result;
         }
-        
+
         private void Form1_Load(object sender, EventArgs e)
         {
             /*scintilla1 = new Scintilla();*/
@@ -127,7 +125,7 @@ namespace code2
             scintilla1.AutoCComplete();
             scintilla1.Dock = DockStyle.Fill;
             scintilla1.TextChanged += this.OnTextChanged;
-            scintilla1.AutoCCompleted += this.scintilla_AutoCompleteAccepted;
+            //scintilla1.AutoCCompleted += this.scintilla_AutoCompleteAccepted;
 
             InitColors();
             InitSyntaxColoring();
@@ -250,6 +248,7 @@ namespace code2
 
         }
 
+        [Obsolete]
         private async void button1_Click_1(object sender, EventArgs e)
         {
             CSharpCodeProvider codeProvider = new CSharpCodeProvider();
@@ -257,8 +256,7 @@ namespace code2
             string Output = "Out.exe";
             //richTextBox1.Text = "";
             CompilerParameters parameters = new CompilerParameters();
-            parameters.GenerateExecutable = false;
-            parameters.GenerateInMemory = true;
+            parameters.GenerateExecutable = true;
             parameters.OutputAssembly = Output;
             try
             {
@@ -347,7 +345,7 @@ namespace code2
                 richTextBox2.Clear();
                 button2.Visible = false;
                 SolvedExo = false;
-                if(_stopwtch != null)
+                if (_stopwtch != null)
                     stopwatchlist.Add(_stopwtch.Elapsed);
             }
             return Task.CompletedTask;
@@ -407,7 +405,7 @@ namespace code2
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if(nbExoCurrent == -1 ) return;
+            if (nbExoCurrent == -1) return;
             richTextBox1.Clear();
             richTextBox2.Clear();
             scintilla1.Clear();
