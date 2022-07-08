@@ -257,12 +257,13 @@ namespace code2
             string Output = "Out.exe";
             //richTextBox1.Text = "";
             CompilerParameters parameters = new CompilerParameters();
-            parameters.GenerateExecutable = true;
+            parameters.GenerateExecutable = false;
+            parameters.GenerateInMemory = true;
             parameters.OutputAssembly = Output;
             try
             {
                 string[] fileEntries = Directory.GetFiles(@"ref/", "*.dll");
-                
+
                 foreach (string fileName in fileEntries)
                     parameters.ReferencedAssemblies.Add(fileName);
             }
@@ -296,7 +297,7 @@ namespace code2
                 }
             }
 
-            // cp.CompileAndRun(scintilla1.Text); WIP
+            //cp.CompileAndRun(scintilla1.Text);
         }
 
         private Task NextConfirm()

@@ -1,7 +1,9 @@
 ﻿using Microsoft.CSharp;
 using System;
 using System.CodeDom.Compiler;
+using System.IO;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace code2
@@ -9,7 +11,7 @@ namespace code2
     internal class Compil
     {
 
-        public string CompileAndRun(string code)
+        public void CompileAndRun(string code)
         {
             RichTextBox t = Application.OpenForms["Form1"].Controls["richTextBox2"] as RichTextBox;
 
@@ -20,8 +22,13 @@ namespace code2
             CompilerParams.GenerateExecutable = false;
             CompilerParams.CompilerOptions = "/optimize";
 
-            string[] references = { "System.dll" };
-            CompilerParams.ReferencedAssemblies.AddRange(references);
+            try
+            {
+                string[] fileEntries = Directory.GetFiles(@"ref/", "*.dll");
+                foreach (string fileName in fileEntries)
+                    CompilerParams.ReferencedAssemblies.Add(fileName);
+            }
+            catch { }
 
             CSharpCodeProvider provider = new CSharpCodeProvider();
             CompilerResults compile = provider.CompileAssemblyFromSource(CompilerParams, code);
@@ -37,37 +44,28 @@ namespace code2
                 t.Text = $"{text}";
             }
 
-            else if (compile.Output != null)
-            {
-                string output = "";
-                foreach (var sc in compile.Output)
-                {
-                    output += sc.ToString();
-                }
-                t.Text = "";
-                t.Text = $"{output}";
-            }
-
             Module module = compile.CompiledAssembly.GetModules()[0];
             Type mt = null;
             MethodInfo methInfo = null;
 
             if (module != null)
             {
-                mt = module.GetType("CodeFromFile.CodeFromFile");
+                mt = module.GetType("EXO.Program");
             }
 
             if (mt != null)
             {
-                methInfo = mt.GetMethod("Add");
+                //methInfo = mt.GetMethod("Main");
+                var obj = Activator.CreateInstance(mt);
+                var output = mt.GetMethod("Main").Invoke(obj, null);
             }
 
             if (methInfo != null)
             {
-                return (string)methInfo.Invoke(null, new object[] { 5, 10 });
+
+                //return (string)methInfo.Invoke(null, new object[] { 5, 10 });
             }
 
-            return compile.Output.ToString();
         }
     }
 }
