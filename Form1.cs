@@ -16,89 +16,86 @@ namespace code2
 {
     public partial class Form1 : Form
     {
-        private static List<TimeSpan> stopwatchlist = new List<TimeSpan>();
+
+        private const int BackColor = 0x2A211C;
+
+        private const int ForeColor = 0xB7B7B7;
+
+        private const int NumberMargin = 1;
+
+        private const int BookmarkMargin = 2;
+
+        private const int BookmarkMarker = 2;
+        private static readonly List<TimeSpan> _stopwatchlist = new List<TimeSpan>();
 
         private static Stopwatch _stopwtch;
 
-        private static List<Tuple<string, string, string>> Exo;
+        private static List<Tuple<string, string, string>> _exo;
 
-        private Compil cp = new Compil();
+        //private Compil _cp = new Compil();
 
-        private static int nbExoCurrent = -1;
+        private static int _nbExoCurrent = -1;
 
-        private static int nbexo = 0;
+        private static int _nbexo;
 
-        private static int nbScoring = 0;
+        private static int _nbScoring;
 
-        private static bool SolvedExo = false;
+        private static bool _solvedExo;
 
-        private const int BACK_COLOR = 0x2A211C;
-
-        private const int FORE_COLOR = 0xB7B7B7;
-
-        private const int NUMBER_MARGIN = 1;
-
-        private const int BOOKMARK_MARGIN = 2;
-
-        private const int BOOKMARK_MARKER = 2;
+        private int _lineCount;
+        private readonly StringBuilder _output = new StringBuilder();
 
         [Obsolete]
         public Form1()
         {
             InitializeComponent();
-            ExoClass exo = new ExoClass();
-            Exo = exo.InitExo();
+            var exo = new ExoClass();
+            _exo = exo.InitExo();
 
             KeyDown += Form1_KeyDown;
         }
 
-        /* Scintilla scintilla1;*/
-
-
-        private int lineCount = 0;
-        private StringBuilder output = new StringBuilder();
-
-        private string Exec(string filename, string cmd, RichTextBox rtbLog, Scintilla rtbinfo)
+        private string Exec(string filename, string cmd, RichTextBox rtbLog)
         {
-            string result = "";
-            Process process = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo();
+            string result;
+            var process = new Process();
+            var startInfo = new ProcessStartInfo();
             startInfo.WindowStyle = ProcessWindowStyle.Normal;
             startInfo.FileName = filename;
-            startInfo.Arguments = $"/C " + cmd;
+            startInfo.Arguments = "/C " + cmd;
             startInfo.UseShellExecute = false;
             startInfo.RedirectStandardOutput = true;
             startInfo.RedirectStandardError = true;
             startInfo.CreateNoWindow = true;
-            process.OutputDataReceived += ((sender, e) =>
+            process.OutputDataReceived += (sender, e) =>
             {
 
                 if (!string.IsNullOrEmpty(e.Data))
                 {
-                    lineCount++;
-                    if (lineCount == 1)
+                    _lineCount++;
+                    if (_lineCount == 1)
                     {
-                        output.Append(e.Data);
+                        _output.Append(e.Data);
                     }
-                    else if (lineCount == 2)
+                    else if (_lineCount == 2)
                     {
-                        output.Append("\n" + e.Data + "\n");
+                        _output.Append("\n" + e.Data + "\n");
                     }
                     else
                     {
-                        output.AppendLine(e.Data);
+                        _output.AppendLine(e.Data);
                     }
                 }
-            });
+            };
 
-            process.ErrorDataReceived += ((sender, e) =>
+            process.ErrorDataReceived += (sender, e) =>
             {
                 if (!string.IsNullOrEmpty(e.Data))
                 {
-                    lineCount++;
-                    output.AppendLine("[" + lineCount + "]: " + e.Data);
+                    _lineCount++;
+                    _output.AppendLine("[" + _lineCount + "]: " + e.Data);
                 }
-            });
+            };
 
             process.StartInfo = startInfo;
             process.Start();
@@ -107,13 +104,13 @@ namespace code2
             process.BeginErrorReadLine();
             process.WaitForExit();
 
-            rtbLog.Text = output.ToString();
+            rtbLog.Text = _output.ToString();
 
             process.WaitForExit();
             process.Close();
-            result = output.ToString();
-            lineCount = 0;
-            output.Clear();
+            result = _output.ToString();
+            _lineCount = 0;
+            _output.Clear();
             return result;
         }
 
@@ -124,7 +121,7 @@ namespace code2
                         scintilla1.Controls.Add(scintilla1);*/
             scintilla1.AutoCComplete();
             scintilla1.Dock = DockStyle.Fill;
-            scintilla1.TextChanged += this.OnTextChanged;
+            scintilla1.TextChanged += OnTextChanged;
             //scintilla1.AutoCCompleted += this.scintilla_AutoCompleteAccepted;
 
             InitColors();
@@ -133,10 +130,12 @@ namespace code2
 
         }
 
+/*
         private void scintilla_AutoCompleteAccepted(object sender, AutoCSelectionEventArgs e)
         {
             throw new NotImplementedException();
         }
+*/
 
         private void OnTextChanged(object sender, EventArgs e)
         {
@@ -186,20 +185,22 @@ namespace code2
             scintilla1.Styles[Style.Cpp.GlobalClass].ForeColor = IntToColor(0x48A8EE);
             scintilla1.Lexer = Lexer.Cpp;
 
-            scintilla1.SetKeywords(0, "class extends implements import interface new case do while else if for in switch throw get set function var try catch finally while with default break continue delete return each const namespace package include use is as instanceof typeof author copy default deprecated eventType example exampleText exception haxe inheritDoc internal link mtasc mxmlc param private return see serial serialData serialField since throws usage version langversion playerversion productversion dynamic private public partial static intrinsic internal native override protected AS3 final super this arguments null Infinity NaN undefined true false abstract as base bool break by byte case catch char checked class const continue decimal default delegate do double descending explicit event extern else enum false finally fixed float for foreach from goto group if implicit in int interface internal into is lock long new null namespace object operator out override orderby params private protected public readonly ref return switch struct sbyte sealed short sizeof stackalloc static string select this throw true try typeof uint ulong unchecked unsafe ushort using var virtual volatile void while where yield");
-            scintilla1.SetKeywords(1, "void Null ArgumentError arguments Array Boolean Class Date DefinitionError Error EvalError Function int Math Namespace Number Object RangeError ReferenceError RegExp SecurityError String SyntaxError TypeError uint XML XMLList Boolean Byte Char DateTime Decimal Double Int16 Int32 Int64 IntPtr SByte Single UInt16 UInt32 UInt64 UIntPtr Void Path File System Windows Forms ScintillaNET");
+            scintilla1.SetKeywords(0,
+                "class extends implements import interface new case do while else if for in switch throw get set function var try catch finally while with default break continue delete return each const namespace package include use is as instanceof typeof author copy default deprecated eventType example exampleText exception haxe inheritDoc internal link mtasc mxmlc param private return see serial serialData serialField since throws usage version langversion playerversion productversion dynamic private public partial static intrinsic internal native override protected AS3 final super this arguments null Infinity NaN undefined true false abstract as base bool break by byte case catch char checked class const continue decimal default delegate do double descending explicit event extern else enum false finally fixed float for foreach from goto group if implicit in int interface internal into is lock long new null namespace object operator out override orderby params private protected public readonly ref return switch struct sbyte sealed short sizeof stackalloc static string select this throw true try typeof uint ulong unchecked unsafe ushort using var virtual volatile void while where yield");
+            scintilla1.SetKeywords(1,
+                "void Null ArgumentError arguments Array Boolean Class Date DefinitionError Error EvalError Function int Math Namespace Number Object RangeError ReferenceError RegExp SecurityError String SyntaxError TypeError uint XML XMLList Boolean Byte Char DateTime Decimal Double Int16 Int32 Int64 IntPtr SByte Single UInt16 UInt32 UInt64 UIntPtr Void Path File System Windows Forms ScintillaNET");
 
         }
 
         private void InitNumberMargin()
         {
 
-            scintilla1.Styles[Style.LineNumber].BackColor = IntToColor(BACK_COLOR);
-            scintilla1.Styles[Style.LineNumber].ForeColor = IntToColor(FORE_COLOR);
-            scintilla1.Styles[Style.IndentGuide].ForeColor = IntToColor(FORE_COLOR);
-            scintilla1.Styles[Style.IndentGuide].BackColor = IntToColor(BACK_COLOR);
+            scintilla1.Styles[Style.LineNumber].BackColor = IntToColor(BackColor);
+            scintilla1.Styles[Style.LineNumber].ForeColor = IntToColor(ForeColor);
+            scintilla1.Styles[Style.IndentGuide].ForeColor = IntToColor(ForeColor);
+            scintilla1.Styles[Style.IndentGuide].BackColor = IntToColor(BackColor);
 
-            var nums = scintilla1.Margins[NUMBER_MARGIN];
+            Margin nums = scintilla1.Margins[NumberMargin];
             nums.Width = 30;
             nums.Type = MarginType.Number;
             nums.Sensitive = true;
@@ -210,20 +211,20 @@ namespace code2
 
         private void scintilla1_MarginClick(object sender, MarginClickEventArgs e)
         {
-            if (e.Margin == BOOKMARK_MARGIN)
+            if (e.Margin == BookmarkMargin)
             {
                 // Do we have a marker for this line?
-                const uint mask = (1 << BOOKMARK_MARKER);
-                var line = scintilla1.Lines[scintilla1.LineFromPosition(e.Position)];
+                const uint mask = 1 << BookmarkMarker;
+                Line line = scintilla1.Lines[scintilla1.LineFromPosition(e.Position)];
                 if ((line.MarkerGet() & mask) > 0)
                 {
                     // Remove existing bookmark
-                    line.MarkerDelete(BOOKMARK_MARKER);
+                    line.MarkerDelete(BookmarkMarker);
                 }
                 else
                 {
                     // Add bookmark
-                    line.MarkerAdd(BOOKMARK_MARKER);
+                    line.MarkerAdd(BookmarkMarker);
                 }
             }
         }
@@ -251,44 +252,51 @@ namespace code2
         [Obsolete]
         private async void button1_Click_1(object sender, EventArgs e)
         {
-            CSharpCodeProvider codeProvider = new CSharpCodeProvider();
+            var codeProvider = new CSharpCodeProvider();
             ICodeCompiler icc = codeProvider.CreateCompiler();
-            string Output = "Out.exe";
+            string output = "Out.exe";
             //richTextBox1.Text = "";
-            CompilerParameters parameters = new CompilerParameters();
+            var parameters = new CompilerParameters();
             parameters.GenerateExecutable = true;
-            parameters.OutputAssembly = Output;
+            parameters.OutputAssembly = output;
             try
             {
                 string[] fileEntries = Directory.GetFiles(@"ref/", "*.dll");
 
                 foreach (string fileName in fileEntries)
+                {
                     parameters.ReferencedAssemblies.Add(fileName);
+                }
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
 
             CompilerResults results = icc.CompileAssemblyFromSource(parameters, scintilla1.Text);
 
             if (results.Errors.Count > 0)
             {
                 richTextBox2.ForeColor = Color.White;
-                foreach (CompilerError CompErr in results.Errors)
+                foreach (CompilerError compErr in results.Errors)
                 {
                     richTextBox2.Text = "";
-                    richTextBox2.Text = $"Line number {CompErr.Line},\nError Number: {CompErr.ErrorNumber} {CompErr.ErrorText}\n";
+                    richTextBox2.Text = $@"Line number {compErr.Line},
+Error Number: {compErr.ErrorNumber} {compErr.ErrorText}
+";
                 }
             }
             else
             {
                 richTextBox2.ForeColor = Color.White;
-                richTextBox2.Text = "Successful Compile!";
+                richTextBox2.Text = @"Successful Compile!";
 
-                if (Exec("cmd", Output, richTextBox2, scintilla1).Equals(Exo[nbExoCurrent].Item3))
+                if (Exec("cmd", output, richTextBox2).Equals(_exo[_nbExoCurrent].Item3))
                 {
-                    if (MessageBox.Show("GG t'as bon") == DialogResult.OK)
+                    if (MessageBox.Show(@"GG t'as bon") == DialogResult.OK)
                     {
                         button2.Visible = true;
-                        SolvedExo = true;
+                        _solvedExo = true;
 
                         await NextConfirm();
                     }
@@ -312,41 +320,41 @@ namespace code2
                 label3.Visible = false;
             }
 
-            if (nbExoCurrent + 1 == Exo.Count)
+            if (_nbExoCurrent + 1 == _exo.Count)
             {
                 _stopwtch.Stop();
                 timer1.Stop();
                 scintilla1.Clear();
-                StringBuilder swl = new StringBuilder();
-                for (int i = 0; i < stopwatchlist.Count; i++)
+                var swl = new StringBuilder();
+                for (int i = 0; i < _stopwatchlist.Count; i++)
                 {
-                    swl.Append($"\n{stopwatchlist[i]}");
+                    swl.Append($"\n{_stopwatchlist[i]}");
                 }
 
                 scintilla1.Text = swl.ToString();
             }
 
-            if (SolvedExo)
+            if (_solvedExo)
             {
-                nbExoCurrent++;
-                nbexo++;
-                nbScoring++;
+                _nbExoCurrent++;
+                _nbexo++;
+                _nbScoring++;
 
                 richTextBox1.Clear();
                 richTextBox2.Clear();
                 scintilla1.Clear();
 
-                label2.Text = $"Exo: {nbexo}/{Exo.Count}";
-                label1.Text = $"Score: {nbScoring}/{Exo.Count}";
+                label2.Text = $@"Exo: {_nbexo}/{_exo.Count}";
+                label1.Text = $@"Score: {_nbScoring}/{_exo.Count}";
 
-                scintilla1.Text = Exo[nbExoCurrent].Item1;
+                scintilla1.Text = _exo[_nbExoCurrent].Item1;
 
-                richTextBox1.Text = Exo[nbExoCurrent].Item2;
+                richTextBox1.Text = _exo[_nbExoCurrent].Item2;
                 richTextBox2.Clear();
                 button2.Visible = false;
-                SolvedExo = false;
+                _solvedExo = false;
                 if (_stopwtch != null)
-                    stopwatchlist.Add(_stopwtch.Elapsed);
+                    _stopwatchlist.Add(_stopwtch.Elapsed);
             }
             return Task.CompletedTask;
         }
@@ -365,24 +373,24 @@ namespace code2
                 label3.Visible = false;
             }
 
-            if (button2.Text == "Start")
+            if (button2.Text == @"Start")
             {
                 checkBox1.Visible = false;
 
-                nbExoCurrent++;
+                _nbExoCurrent++;
                 button2.Visible = false;
-                button2.Text = "Next";
+                button2.Text = @"Next";
 
                 richTextBox1.Clear();
                 richTextBox2.Clear();
                 scintilla1.Clear();
 
-                scintilla1.Text = Exo[nbExoCurrent].Item1;
+                scintilla1.Text = _exo[_nbExoCurrent].Item1;
 
-                richTextBox1.Text = Exo[nbExoCurrent].Item2;
+                richTextBox1.Text = _exo[_nbExoCurrent].Item2;
 
-                label2.Text = $"Exo: {nbexo}/{Exo.Count}";
-                label1.Text = $"Score: {nbScoring}/{Exo.Count}";
+                label2.Text = $@"Exo: {_nbexo}/{_exo.Count}";
+                label1.Text = $@"Score: {_nbScoring}/{_exo.Count}";
             }
         }
 
@@ -405,19 +413,21 @@ namespace code2
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (nbExoCurrent == -1) return;
+            if (_nbExoCurrent == -1) return;
             richTextBox1.Clear();
             richTextBox2.Clear();
             scintilla1.Clear();
 
-            scintilla1.Text = Exo[nbExoCurrent].Item1;
-            richTextBox1.Text = Exo[nbExoCurrent].Item2;
+            scintilla1.Text = _exo[_nbExoCurrent].Item1;
+            richTextBox1.Text = _exo[_nbExoCurrent].Item2;
 
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            this.label3.Text = string.Format("Elapsed Time: \n{0:hh\\:mm\\:ss}", _stopwtch.Elapsed);
+            label3.Text = string.Format(@"Elapsed Time: 
+{0:hh\:mm\:ss}",
+                _stopwtch.Elapsed);
         }
     }
 }

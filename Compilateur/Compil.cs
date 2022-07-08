@@ -5,16 +5,16 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace code2
+namespace code2.Compilateur
 {
     internal class Compil
     {
 
         public void CompileAndRun(string code)
         {
-            RichTextBox t = Application.OpenForms["Form1"].Controls["richTextBox2"] as RichTextBox;
+            var t = Application.OpenForms["Form1"].Controls["richTextBox2"] as RichTextBox;
 
-            CompilerParameters CompilerParams = new CompilerParameters();
+            var CompilerParams = new CompilerParameters();
 
             CompilerParams.GenerateInMemory = true;
             CompilerParams.TreatWarningsAsErrors = false;
@@ -25,17 +25,22 @@ namespace code2
             {
                 string[] fileEntries = Directory.GetFiles(@"ref/", "*.dll");
                 foreach (string fileName in fileEntries)
+                {
                     CompilerParams.ReferencedAssemblies.Add(fileName);
+                }
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
 
-            CSharpCodeProvider provider = new CSharpCodeProvider();
+            var provider = new CSharpCodeProvider();
             CompilerResults compile = provider.CompileAssemblyFromSource(CompilerParams, code);
 
             if (compile.Errors.HasErrors)
             {
                 string text = "Compile error: ";
-                foreach (var ce in compile.Errors)
+                foreach (object ce in compile.Errors)
                 {
                     text += ce.ToString();
                 }
@@ -55,8 +60,8 @@ namespace code2
             if (mt != null)
             {
                 //methInfo = mt.GetMethod("Main");
-                var obj = Activator.CreateInstance(mt);
-                var output = mt.GetMethod("Main").Invoke(obj, null);
+                object obj = Activator.CreateInstance(mt);
+                object output = mt.GetMethod("Main").Invoke(obj, null);
             }
 
             if (methInfo != null)
