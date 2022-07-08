@@ -98,8 +98,8 @@
     <Compile Include="Code.Designer.cs">
       <DependentUpon>Code.cs</DependentUpon>
     </Compile>
-    <Compile Include="Compil.cs" />
-    <Compile Include="ExoClass.cs" />
+    <Compile Include="Compilateur\Compil.cs" />
+    <Compile Include="ExoList\ExoClass.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -150,5 +150,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
