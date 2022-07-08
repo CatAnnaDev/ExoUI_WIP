@@ -34,6 +34,9 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.label3 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -42,10 +45,9 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.scintilla1 = new ScintillaNET.Scintilla();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -113,6 +115,8 @@
             // 
             // splitContainer3.Panel1
             // 
+            this.splitContainer3.Panel1.Controls.Add(this.label5);
+            this.splitContainer3.Panel1.Controls.Add(this.label4);
             this.splitContainer3.Panel1.Controls.Add(this.label3);
             this.splitContainer3.Panel1.Controls.Add(this.checkBox1);
             this.splitContainer3.Panel1.Controls.Add(this.button4);
@@ -128,6 +132,41 @@
             this.splitContainer3.Size = new System.Drawing.Size(520, 694);
             this.splitContainer3.SplitterDistance = 173;
             this.splitContainer3.TabIndex = 0;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.SystemColors.Window;
+            this.label3.Location = new System.Drawing.Point(12, 196);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(101, 24);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "StopWatch";
+            this.label3.Visible = false;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.ForeColor = System.Drawing.SystemColors.Window;
+            this.checkBox1.Location = new System.Drawing.Point(16, 626);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(89, 17);
+            this.checkBox1.TabIndex = 6;
+            this.checkBox1.Text = "StopWatch ?";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button4.Location = new System.Drawing.Point(12, 668);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(154, 23);
+            this.button4.TabIndex = 5;
+            this.button4.Text = "Reset Code";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // button3
             // 
@@ -215,44 +254,33 @@
             this.richTextBox2.TabIndex = 0;
             this.richTextBox2.Text = "Le debug/output se trouve ici";
             // 
-            // button4
-            // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button4.Location = new System.Drawing.Point(12, 668);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(154, 23);
-            this.button4.TabIndex = 5;
-            this.button4.Text = "Reset Code";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.ForeColor = System.Drawing.SystemColors.Window;
-            this.checkBox1.Location = new System.Drawing.Point(16, 626);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(89, 17);
-            this.checkBox1.TabIndex = 6;
-            this.checkBox1.Text = "StopWatch ?";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.SystemColors.Window;
-            this.label3.Location = new System.Drawing.Point(12, 195);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(101, 24);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "StopWatch";
-            this.label3.Visible = false;
-            // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.SystemColors.Window;
+            this.label4.Location = new System.Drawing.Point(12, 559);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(132, 24);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "F1 Exec Code";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.SystemColors.Window;
+            this.label5.Location = new System.Drawing.Point(12, 583);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(73, 24);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "F2 Start";
             // 
             // Form1
             // 
@@ -302,6 +330,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
     }
 }
 

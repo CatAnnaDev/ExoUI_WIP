@@ -10,14 +10,17 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace code2
 {
     public partial class Form1 : Form
     {
         private static List<TimeSpan> stopwatchlist = new List<TimeSpan>();
-        private Stopwatch _stopwtch;
+
+        private static Stopwatch _stopwtch;
 
         private static List<Tuple<string, string, string>> Exo;
 
@@ -47,9 +50,8 @@ namespace code2
             InitializeComponent();
             ExoClass exo = new ExoClass();
             Exo = exo.InitExo();
-            
 
-            this.KeyDown += new KeyEventHandler(Form1_KeyDown);
+            KeyDown += Form1_KeyDown;
         }
 
        /* Scintilla scintilla1;*/
@@ -120,16 +122,22 @@ namespace code2
         private void Form1_Load(object sender, EventArgs e)
         {
             /*scintilla1 = new Scintilla();*/
-/*            scintilla1.Text = scintilla1.Text;
-            scintilla1.Controls.Add(scintilla1);*/
-
+            /*            scintilla1.Text = scintilla1.Text;
+                        scintilla1.Controls.Add(scintilla1);*/
+            scintilla1.AutoCComplete();
             scintilla1.Dock = DockStyle.Fill;
             scintilla1.TextChanged += this.OnTextChanged;
+            scintilla1.AutoCCompleted += this.scintilla_AutoCompleteAccepted;
 
             InitColors();
             InitSyntaxColoring();
             InitNumberMargin();
 
+        }
+
+        private void scintilla_AutoCompleteAccepted(object sender, AutoCSelectionEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void OnTextChanged(object sender, EventArgs e)
@@ -155,7 +163,7 @@ namespace code2
             // Configure the default style
             scintilla1.StyleResetDefault();
             scintilla1.Styles[Style.Default].Font = "Consolas";
-            scintilla1.Styles[Style.Default].Size = 12;
+            scintilla1.Styles[Style.Default].Size = 13;
             scintilla1.Styles[Style.Default].BackColor = IntToColor(0x212121);
             scintilla1.Styles[Style.Default].ForeColor = IntToColor(0xFFFFFF);
             scintilla1.CaretForeColor = Color.White;
@@ -222,21 +230,27 @@ namespace code2
             }
         }
 
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (e.KeyCode == Keys.F1)
+            if (keyData == Keys.F1)
             {
                 button1.PerformClick();
                 Thread.Sleep(50);
             }
-            if (e.KeyCode == Keys.F2)
+            if (keyData == Keys.F2)
             {
                 button2.PerformClick();
                 Thread.Sleep(50);
             }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private async void button1_Click_1(object sender, EventArgs e)
         {
             CSharpCodeProvider codeProvider = new CSharpCodeProvider();
             ICodeCompiler icc = codeProvider.CreateCompiler();
@@ -245,9 +259,14 @@ namespace code2
             CompilerParameters parameters = new CompilerParameters();
             parameters.GenerateExecutable = true;
             parameters.OutputAssembly = Output;
-            string[] fileEntries = Directory.GetFiles(@"ref/", "*.dll");
-            foreach (string fileName in fileEntries)
-                parameters.ReferencedAssemblies.Add(fileName);
+            try
+            {
+                string[] fileEntries = Directory.GetFiles(@"ref/", "*.dll");
+                
+                foreach (string fileName in fileEntries)
+                    parameters.ReferencedAssemblies.Add(fileName);
+            }
+            catch { }
 
             CompilerResults results = icc.CompileAssemblyFromSource(parameters, scintilla1.Text);
 
@@ -271,6 +290,8 @@ namespace code2
                     {
                         button2.Visible = true;
                         SolvedExo = true;
+
+                        await NextConfirm();
                     }
                 }
             }
@@ -278,9 +299,21 @@ namespace code2
             // cp.CompileAndRun(scintilla1.Text); WIP
         }
 
-        private void button2_Click_1(object sender, EventArgs e)
+        private Task NextConfirm()
         {
-            if (nbExoCurrent +1 == Exo.Count)
+            if (checkBox1.Checked)
+            {
+                label3.Visible = true;
+                _stopwtch = new Stopwatch();
+                _stopwtch.Start();
+                timer1.Start();
+            }
+            else
+            {
+                label3.Visible = false;
+            }
+
+            if (nbExoCurrent + 1 == Exo.Count)
             {
                 _stopwtch.Stop();
                 timer1.Stop();
@@ -294,38 +327,7 @@ namespace code2
                 scintilla1.Text = swl.ToString();
             }
 
-            if (button2.Text == "Start")
-            {
-                if (checkBox1.Checked)
-                {
-                    label3.Visible = true;
-                    _stopwtch = new Stopwatch();
-                    _stopwtch.Start();
-                    timer1.Start();
-                }
-                else
-                {
-                    label3.Visible = false;
-                }
-
-                checkBox1.Visible = false;
-
-                nbExoCurrent++;
-                button2.Visible = false;
-                button2.Text = "Next";
-
-                richTextBox1.Clear();
-                richTextBox2.Clear();
-                scintilla1.Clear();
-
-                scintilla1.Text = Exo[nbExoCurrent].Item1;
-
-                richTextBox1.Text = Exo[nbExoCurrent].Item2;
-
-                label2.Text = $"Exo: {nbexo}/{Exo.Count}";
-                label1.Text = $"Score: {nbScoring}/{Exo.Count}";
-            }
-            if (SolvedExo && button2.Text == "Next")
+            if (SolvedExo)
             {
                 nbExoCurrent++;
                 nbexo++;
@@ -344,7 +346,44 @@ namespace code2
                 richTextBox2.Clear();
                 button2.Visible = false;
                 SolvedExo = false;
-                stopwatchlist.Add(_stopwtch.Elapsed);
+                if(_stopwtch != null)
+                    stopwatchlist.Add(_stopwtch.Elapsed);
+            }
+            return Task.CompletedTask;
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                label3.Visible = true;
+                _stopwtch = new Stopwatch();
+                _stopwtch.Start();
+                timer1.Start();
+            }
+            else
+            {
+                label3.Visible = false;
+            }
+
+            if (button2.Text == "Start")
+            {
+                checkBox1.Visible = false;
+
+                nbExoCurrent++;
+                button2.Visible = false;
+                button2.Text = "Next";
+
+                richTextBox1.Clear();
+                richTextBox2.Clear();
+                scintilla1.Clear();
+
+                scintilla1.Text = Exo[nbExoCurrent].Item1;
+
+                richTextBox1.Text = Exo[nbExoCurrent].Item2;
+
+                label2.Text = $"Exo: {nbexo}/{Exo.Count}";
+                label1.Text = $"Score: {nbScoring}/{Exo.Count}";
             }
         }
 
