@@ -1,8 +1,12 @@
-﻿using ScintillaNET;
+﻿#region
+
+using ScintillaNET;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+
+#endregion
 
 namespace code2
 {

@@ -1,5 +1,9 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
+
+#endregion
 
 namespace code2
 {
@@ -42,17 +46,9 @@ namespace code2
                     "using System;\r\nusing System.Collections.Generic;\r\n\r\nnamespace EXO8 {\r\n    class Program {\r\n        static void Main(string[] args) {\r\n            Dictionary<int, string> dico = new Dictionary<int, string>();\r\n            dico.Add(1, \"Meow\");\r\n            dico.Add(2, \"Chat\");\r\n            dico.Add(3, \"Chien\");\r\n\r\n            foreach(KeyValuePair<int, string> kvp in dico) {\r\n                if(kvp.Key != 0) {\r\n                    Console.WriteLine(\"Key = {0}, Value = {1}\", kvp.Key, kvp.Value);\r\n                }\r\n            }\r\n        }\r\n    }\r\n}",
                     "//ERREUR / MANQUE\r\n//Result uniquement : Key = 2, Value = \"Chat\"",
                     "Key = 2, Value = \"Chat\""),
-                Tuple.Create(
-                    "using System;\r\nusing System.Security.Cryptography;\r\nusing System.Text;\r\n\r\nnamespace EXO9 {\r\n    class Program {\r\n\r\n\r\n        static void Main(string[] args) {\r\n            string work = \"DES CHOSES\";\r\n            Console.WriteLine(Log.Back(work));\r\n        }\r\n    }\r\n\r\n    public class Log {\r\n        public static string Back(string rawData) {\r\n\r\n            using(SHA256 sha256Hash = SHA256.Create()) {\r\n                //code ICI\r\n            }\r\n        }\r\n    }\r\n}",
-                    "// Dev\r\n//convertir un string en SHA256\r\n// recherche internet ok\r\n// RESULT : cfbda284b93b9a8af1ef848808f8983ecd81bf852b02201ce479ca230b08e19e",
-                    "cfbda284b93b9a8af1ef848808f8983ecd81bf852b02201ce479ca230b08e19e"),
                 Tuple.Create("using System;\r\n\r\nnamespace EXO10 {\r\n    class Program {\r\n        static void Main(string[] args) {\r\n            int blap = Convert.ToInt32(0xFFFFFFFF);\r\n            Console.WriteLine(blap);\r\n        }\r\n    }\r\n}",
                     "// Erreur pas touche au 0xFFFFFFFF\r\n// recherche internet ok\r\n// Result : 4294967295",
                     "4294967295"),
-                Tuple.Create(
-                    "using System;\r\nusing System.Net.Http;\r\nusing System.Threading.Tasks;\r\n\r\nnamespace EXO11 {\r\n    class Program {\r\n        static readonly HttpClient client = new HttpClient();\r\n        static async Task Main(string[] args) {\r\n\r\n            HttpResponseMessage response = await client.GetAsync(\"http://www.perdu.com/\");\r\n            response.EnsureSuccessStatusCode();\r\n            string responseBody = await response.Content.ReadAsStringAsync();\r\n            Console.WriteLine(responseBody);\r\n\r\n        }\r\n    }\r\n}",
-                    "//MODIF\r\n// recherche internet ok\r\n// Result : \r\n\r\n/*\r\n        Server: Apache\r\n        Upgrade: h2\r\n        Connection: Upgrade\r\n        ETag: \"cc-5344555136fe9\"\r\n        Accept-Ranges: bytes\r\n        Cache-Control: max-age=600\r\n        Vary: Accept-Encoding,User-Agent\r\n*/",
-                    "Server: Apache\r\nUpgrade: h2\r\nConnection: Upgrade\r\nETag: \"cc-5344555136fe9\"\r\nAccept-Ranges: bytes\r\nCache-Control: max-age=600\r\nVary: Accept-Encoding,User-Agent"),
                 Tuple.Create(
                     "using System;\r\n\r\nnamespace EXO12 {\r\n    class Program {\r\n        enum Level {\r\n            Low = 4,\r\n            Medium = 5,\r\n            High = 6\r\n        }\r\n        static void Main(string[] args) {\r\n            Level myVar = Level.Medium;\r\n            Console.WriteLine(myVar);\r\n        }\r\n\r\n    }\r\n}",
                     "//ERREUR\r\n//Result : 15",
@@ -85,7 +81,7 @@ namespace code2
                 Tuple.Create(
                     "using System;\r\nusing System.Collections.Generic;\r\n\r\nnamespace EXO6\r\n{\r\n    class Program\r\n    {\r\n        static void Main(string[] args)\r\n        {\r\n            List<string> listOne = new();\r\n            listOne.Add(\"One\");\r\n            listOne.Add(\"Two\");\r\n            listOne.Add(\"Three\");\r\n            listOne.Add(\"Four\");\r\n            listOne.Add(\"Five\");\r\n\r\n\r\n            List<string> listTwo = new();\r\n            listTwo.Add(\"A\");\r\n            listTwo.Add(\"B\");\r\n            listTwo.Add(\"C\");\r\n\r\n            listOne.AddRange(listTwo);\r\n            listOne.RemoveRange(0, 0);\r\n\r\n            foreach (string list in listOne)\r\n            {\r\n                Console.WriteLine(list);\r\n            }\r\n        }\r\n    }\r\n\r\n}",
                     "//ERREUR\r\n//Result : \r\n/*\r\nA\r\nB\r\nC\r\n*/",
-                    "A\r\nB\r\nC"),
+                    "A\nB\nC"),
                 Tuple.Create(
                     "using System;\r\nusing System.Diagnostics;\r\n\r\nnamespace EXO7\r\n{\r\n    class Program\r\n    {\r\n        static void Main(string[] args)\r\n        {\r\n            int hexa = 0xF;\r\n            int Result = 0;\r\n            \r\n            Console.WriteLine(Result);\r\n        }\r\n    }\r\n}",
                     "//Dev\r\n// Convertir 0xF en chiffre\r\n//print le Resuslt\r\n// internet ok",
@@ -142,7 +138,15 @@ namespace code2
                 Tuple.Create(
                     "using System;\r\nusing System.Diagnostics;\r\n\r\nnamespace EXO12 \r\n{\r\n    class Program \r\n    {\r\n        static void Main(string[] args) \r\n        {\r\n            int nb = 0;\r\n            \r\n            Console.WriteLine(\"NB = nb\");\r\n\r\n        }\r\n\r\n    }\r\n}",
                     "// Erreur \r\n// Result : NB = 0",
-                    "NB = 0")
+                    "NB = 0"),
+                Tuple.Create(
+                    "using System;\r\nusing System.Security.Cryptography;\r\nusing System.Text;\r\n\r\nnamespace EXO9 {\r\n    class Program {\r\n\r\n\r\n        static void Main(string[] args) {\r\n            string work = \"DES CHOSES\";\r\n            Console.WriteLine(Log.Back(work));\r\n        }\r\n    }\r\n\r\n    public class Log {\r\n        public static string Back(string rawData) {\r\n\r\n            using(SHA256 sha256Hash = SHA256.Create()) {\r\n                //code ICI\r\n            }\r\n        }\r\n    }\r\n}",
+                    "// Dev\r\n//convertir un string en SHA256\r\n// recherche internet ok\r\n// RESULT : cfbda284b93b9a8af1ef848808f8983ecd81bf852b02201ce479ca230b08e19e",
+                    "cfbda284b93b9a8af1ef848808f8983ecd81bf852b02201ce479ca230b08e19e"),
+                Tuple.Create(
+                    "using System;\r\nusing System.Net.Http;\r\nusing System.Threading.Tasks;\r\n\r\nnamespace EXO11 {\r\n    class Program {\r\n        static readonly HttpClient client = new HttpClient();\r\n        static async Task Main(string[] args) {\r\n\r\n            HttpResponseMessage response = await client.GetAsync(\"http://www.perdu.com/\");\r\n            response.EnsureSuccessStatusCode();\r\n            string responseBody = await response.Content.ReadAsStringAsync();\r\n            Console.WriteLine(responseBody);\r\n\r\n        }\r\n    }\r\n}",
+                    "//MODIF\r\n// recherche internet ok\r\n// Result : \r\n\r\n/*\r\n        Server: Apache\r\n        Upgrade: h2\r\n        Connection: Upgrade\r\n        ETag: \"cc-5344555136fe9\"\r\n        Accept-Ranges: bytes\r\n        Cache-Control: max-age=600\r\n        Vary: Accept-Encoding,User-Agent\r\n*/",
+                    "Server: Apache\r\nUpgrade: h2\r\nConnection: Upgrade\r\nETag: \"cc-5344555136fe9\"\r\nAccept-Ranges: bytes\r\nCache-Control: max-age=600\r\nVary: Accept-Encoding,User-Agent")
             };
 
             return Exo;

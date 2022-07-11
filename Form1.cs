@@ -1,4 +1,7 @@
-﻿using Microsoft.CSharp;
+﻿#region
+
+using code2.Compilateur;
+using Microsoft.CSharp;
 using ScintillaNET;
 using System;
 using System.CodeDom.Compiler;
@@ -11,6 +14,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+#endregion
 
 namespace code2
 {
@@ -34,16 +39,16 @@ namespace code2
 
         //private Compil _cp = new Compil();
 
-        private static int _nbExoCurrent = -1;
+        private static int _nbExoCurrent = 8;
 
         private static int _nbexo;
 
         private static int _nbScoring;
 
         private static bool _solvedExo;
+        private readonly StringBuilder _output = new StringBuilder();
 
         private int _lineCount;
-        private readonly StringBuilder _output = new StringBuilder();
 
         [Obsolete]
         public Form1()
@@ -259,13 +264,20 @@ namespace code2
             var parameters = new CompilerParameters();
             parameters.GenerateExecutable = true;
             parameters.OutputAssembly = output;
+            DLLImport dll = new DLLImport();
             try
             {
                 string[] fileEntries = Directory.GetFiles(@"ref/", "*.dll");
 
                 foreach (string fileName in fileEntries)
                 {
-                    parameters.ReferencedAssemblies.Add(fileName);
+                    //parameters.ReferencedAssemblies.Add(fileName);
+                }
+                foreach (var import in dll.ImportDLL(scintilla1.Text))
+                {
+                    if(scintilla1.Text.StartsWith("using ") && scintilla1.Text.EndsWith(";"))
+                        
+                        parameters.ReferencedAssemblies.Add(import);
                 }
             }
             catch
