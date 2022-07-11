@@ -1,6 +1,6 @@
 # ExoUI_WIP
 
-Next update auto indentation / auto completion
+Next update auto indentation / auto completion ( portage web ? )
 ![Screenshot 2022-07-08 045303](https://user-images.githubusercontent.com/45910905/177907636-cfde182c-3470-470a-bf75-745a531d9b86.png)
 
 ![Screenshot 2022-07-08 045210](https://user-images.githubusercontent.com/45910905/177907554-7bda3373-d7cc-4114-af59-b70ca66e2841.png)
